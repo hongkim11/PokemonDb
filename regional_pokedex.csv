@@ -1,0 +1,336 @@
+pokemon_id,generation_id,region,regional_id
+1,1,Kanto,1
+1,2,Johto,226
+1,3,Kanto,1
+1,4,Johto,231
+1,6,Central Kalos,80
+1,7,Kanto,1
+1,8,Armor,68
+1,9,Blueberry,164
+1,9,Lumiose,148
+2,1,Kanto,2
+2,2,Johto,227
+2,3,Kanto,2
+2,4,Johto,232
+2,6,Central Kalos,81
+2,7,Kanto,2
+2,8,Armor,69
+2,9,Blueberry,165
+2,9,Lumiose,149
+3,1,Kanto,3
+3,2,Johto,228
+3,3,Kanto,3
+3,4,Johto,233
+3,6,Central Kalos,82
+3,7,Kanto,3
+3,8,Armor,70
+3,9,Blueberry,166
+3,9,Lumiose,150
+4,1,Kanto,4
+4,2,Johto,229
+4,3,Kanto,4
+4,4,Johto,234
+4,6,Central Kalos,83
+4,7,Kanto,4
+4,8,Galar,378
+4,9,Blueberry,167
+4,9,Lumiose,151
+5,1,Kanto,5
+5,2,Johto,230
+5,3,Kanto,5
+5,4,Johto,235
+5,6,Central Kalos,84
+5,7,Kanto,5
+5,8,Galar,379
+5,9,Blueberry,168
+5,9,Lumiose,152
+6,1,Kanto,6
+6,2,Johto,231
+6,3,Kanto,6
+6,4,Johto,236
+6,6,Central Kalos,85
+6,7,Kanto,6
+6,8,Galar,380
+6,9,Blueberry,169
+6,9,Lumiose,153
+7,1,Kanto,7
+7,2,Johto,232
+7,3,Kanto,7
+7,4,Johto,237
+7,6,Central Kalos,86
+7,7,Kanto,7
+7,8,Armor,71
+7,9,Blueberry,170
+7,9,Lumiose,154
+8,1,Kanto,8
+8,2,Johto,233
+8,3,Kanto,8
+8,4,Johto,238
+8,6,Central Kalos,87
+8,7,Kanto,8
+8,8,Armor,72
+8,9,Blueberry,171
+8,9,Lumiose,155
+9,1,Kanto,9
+9,2,Johto,234
+9,3,Kanto,9
+9,4,Johto,239
+9,6,Central Kalos,88
+9,7,Kanto,9
+9,8,Armor,73
+9,9,Blueberry,172
+9,9,Lumiose,156
+10,1,Kanto,10
+10,2,Johto,24
+10,3,Kanto,10
+10,4,Johto,24
+10,6,Central Kalos,23
+10,7,Alola,17
+10,7,Kanto,10
+10,8,Galar,13
+11,1,Kanto,11
+11,2,Johto,25
+11,3,Kanto,11
+11,4,Johto,25
+11,6,Central Kalos,24
+11,7,Alola,18
+11,7,Kanto,11
+11,8,Galar,14
+12,1,Kanto,12
+12,2,Johto,26
+12,3,Kanto,12
+12,4,Johto,26
+12,6,Central Kalos,25
+12,7,Alola,19
+12,7,Kanto,12
+12,8,Galar,15
+13,1,Kanto,13
+13,2,Johto,27
+13,3,Kanto,13
+13,4,Johto,27
+13,6,Central Kalos,26
+13,7,Kanto,13
+13,9,Lumiose,18
+14,1,Kanto,14
+14,2,Johto,28
+14,3,Kanto,14
+14,4,Johto,28
+14,6,Central Kalos,27
+14,7,Kanto,14
+14,9,Lumiose,19
+15,1,Kanto,15
+15,2,Johto,29
+15,3,Kanto,15
+15,4,Johto,29
+15,6,Central Kalos,28
+15,7,Kanto,15
+15,9,Lumiose,20
+16,1,Kanto,16
+16,2,Johto,10
+16,3,Kanto,16
+16,4,Johto,10
+16,6,Central Kalos,17
+16,7,Kanto,16
+16,9,Lumiose,21
+17,1,Kanto,17
+17,2,Johto,11
+17,3,Kanto,17
+17,4,Johto,11
+17,6,Central Kalos,18
+17,7,Kanto,17
+17,9,Lumiose,22
+18,1,Kanto,18
+18,2,Johto,12
+18,3,Kanto,18
+18,4,Johto,12
+18,6,Central Kalos,19
+18,7,Kanto,18
+18,9,Lumiose,23
+19,1,Kanto,19
+19,2,Johto,17
+19,3,Kanto,19
+19,4,Johto,17
+19,5,Sequel Unova,59
+19,7,Alola,15
+19,7,Kanto,19
+20,1,Kanto,20
+20,2,Johto,18
+20,3,Kanto,20
+20,4,Johto,18
+20,5,Sequel Unova,60
+20,7,Alola,16
+20,7,Kanto,20
+21,1,Kanto,21
+21,2,Johto,13
+21,3,Kanto,21
+21,4,Johto,13
+21,6,Mountain Kalos,109
+21,7,Alola,73
+21,7,Ultra Alola,87
+21,7,Kanto,21
+22,1,Kanto,14
+22,2,Johto,22
+22,3,Kanto,14
+22,4,Johto,110
+22,6,Mountain Kalos,74
+22,7,Alola,88
+22,7,Ultra Alola,22
+22,7,Kanto,22
+23,1,Kanto,23
+23,2,Johto,50
+23,3,Kanto,23
+23,4,Johto,50
+23,6,Mountain Kalos,37
+23,7,Ultra Alola,61
+23,7,Kanto,23
+23,9,Kitakami,18
+23,9,Lumiose,60
+24,1,Kanto,24
+24,2,Johto,51
+24,3,Kanto,24
+24,4,Johto,51
+24,6,Mountain Kalos,38
+24,7,Ultra Alola,62
+24,7,Kanto,24
+24,9,Kitakami,19
+24,9,Lumiose,61
+25,1,Kanto,25
+25,2,Johto,22
+25,3,Hoenn,156
+25,3,Kanto,25
+25,4,Sinnoh,104
+25,4,Johto,22
+25,6,Central Kalos,36
+25,6,Hoenn,163
+25,7,Alola,25
+25,7,Ultra Alola,32
+25,7,Kanto,25
+25,8,Galar,194
+25,8,Armor,85
+25,8,Sinnoh,104
+25,8,Hisui,56
+25,9,Paldea,74
+25,9,Kitakami,21
+25,9,Lumiose,53
+26,1,Kanto,26
+26,2,Johto,23
+26,3,Hoenn,157
+26,3,Kanto,26
+26,4,Sinnoh,105
+26,4,Johto,23
+26,6,Central Kalos,37
+26,6,Hoenn,164
+26,7,Alola,26
+26,7,Ultra Alola,33
+26,7,Kanto,26
+26,8,Galar,195
+26,8,Armor,86
+26,8,Sinnoh,105
+26,8,Hisui,57
+26,9,Paldea,75
+26,9,Kitakami,22
+26,9,Lumiose,54
+27,1,Kanto,27
+27,2,Johto,48
+27,3,Hoenn,112
+27,3,Kanto,27
+27,4,Johto,48
+27,5,Sequel Unova,113
+27,6,Mountain Kalos,97
+27,6,Hoenn,117
+27,7,Alola,251
+27,7,Ultra Alola,328
+27,7,Kanto,27
+27,8,Armor,168
+27,9,Kitakami,116
+27,9,Blueberry,155
+28,1,Kanto,28
+28,2,Johto,49
+28,3,Hoenn,113
+28,3,Kanto,28
+28,4,Johto,49
+28,5,Sequel Unova,114
+28,6,Mountain Kalos,98
+28,6,Hoenn,118
+28,7,Alola,252
+28,7,Ultra Alola,329
+28,7,Kanto,28
+28,8,Armor,169
+28,9,Kitakami,117
+28,9,Blueberry,156
+29,1,Kanto,29
+29,2,Johto,95
+29,3,Kanto,29
+29,4,Johto,95
+29,6,Coastal Kalos,104
+29,7,Kanto,29
+29,8,Tundra,65
+30,1,Kanto,30
+30,2,Johto,96
+30,3,Kanto,30
+30,4,Johto,96
+30,6,Coastal Kalos,105
+30,7,Kanto,30
+30,8,Tundra,66
+31,1,Kanto,31
+31,2,Johto,97
+31,3,Kanto,31
+31,4,Johto,97
+31,6,Coastal Kalos,106
+31,7,Kanto,31
+31,8,Tundra,67
+32,1,Kanto,32
+32,2,Johto,98
+32,3,Kanto,32
+32,4,Johto,98
+32,6,Coastal Kalos,107
+32,7,Kanto,32
+32,8,Tundra,68
+33,1,Kanto,33
+33,2,Johto,99
+33,3,Kanto,33
+33,4,Johto,99
+33,6,Coastal Kalos,108
+33,7,Kanto,33
+33,8,Tundra,69
+34,1,Kanto,34
+34,2,Johto,100
+34,3,Kanto,34
+34,4,Johto,100
+34,6,Coastal Kalos,109
+34,7,Kanto,34
+34,8,Tundra,70
+35,1,Kanto,35
+35,2,Johto,41
+35,3,Kanto,35
+35,4,Sinnoh,100
+35,4,Johto,41
+35,5,Sequel Unova,89
+35,7,Alola,211
+35,7,Ultra Alola,273
+35,7,Kanto,35
+35,8,Galar,255
+35,8,Tundra,44
+35,8,Sinnoh,100
+35,8,Hisui,200
+35,9,Kitakami,152
+35,9,Lumiose,56
+36,1,Kanto,36
+36,2,Johto,42
+36,3,Kanto,36
+36,4,Sinnoh,101
+36,4,Johto,42
+36,5,Sequel Unova,90
+36,7,Alola,212
+36,7,Ultra Alola,274
+36,7,Kanto,36
+36,8,Galar,256
+36,8,Tundra,45
+36,8,Sinnoh,101
+36,8,Hisui,201
+36,9,Kitakami,153
+36,9,Lumiose,57
+906,9,Paldea,1
+935,9,Paldea,165
+936,9,Paldea,166
+937,9,Paldea,167
