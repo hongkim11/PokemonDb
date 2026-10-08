@@ -980,7 +980,12 @@ LEFT JOIN "types" AS "type2" ON "type2"."id" = "typing"."secondary_type";
 
 -- Creates a view that shows all information regarding a Pokémon
 CREATE VIEW "pokedex_detailed" AS
-SELECT "pokedex"."id" AS "ID", "pokedex"."species" AS "Pokémon",
+SELECT "pokedex"."id" AS "ID", 
+    CASE
+        WHEN "regional_forms"."pokemon_id" IS NOT NULL 
+        THEN '* ' || "pokedex"."species"
+        ELSE "pokedex"."species"
+    END AS "Pokémon",
 COALESCE("form_region"."region", "debut_region"."region") AS "Region",
 "categories"."category" AS "Category", "type1"."type" AS "Type 1", IFNULL("type2"."type", '') AS "Type 2",
 "evolution_stages"."stage" AS "Stage", "ability1"."ability" AS "Ability 1",
