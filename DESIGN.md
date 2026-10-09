@@ -2,7 +2,7 @@
 
 By Hong Kim
 
-Video overview: <[URL HERE](https://youtu.be/8jekRvPynLo)>
+Video overview: <[https://youtu.be/8jekRvPynLo]>
 
 ## Scope
 

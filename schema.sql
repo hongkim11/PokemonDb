@@ -835,7 +835,8 @@ LEFT JOIN "regions" AS "sub" ON "main"."sub_region_of" = "sub"."id";
 CREATE VIEW "list_of_pokemon_with_regional_forms" AS
 SELECT
 --"regional_forms"."id" AS "ID",
-"regions"."adjective" || ' ' || "pokedex"."species" AS "Pokémon", IFNULL("breed",'') AS "Breed"
+    "regions"."adjective" || ' ' || "pokedex"."species" AS "Pokémon", 
+    IFNULL("breed",'') AS "Breed"
 FROM "regional_forms"
 LEFT JOIN "pokedex" ON "pokedex"."id" = "regional_forms"."pokemon_id"
 LEFT JOIN "regions" ON "regions"."id" = "regional_forms"."region_id";
@@ -843,8 +844,8 @@ LEFT JOIN "regions" ON "regions"."id" = "regional_forms"."region_id";
 -- Creates a view that shows all Pokémon whose types changed due to addition of new types in later generations
 CREATE VIEW "pokemon_with_type_changes" AS
 SELECT "pokedex"."id" AS "ID", "pokedex"."species" AS "Pokémon",
-"current_type1"."type" AS "Type 1", IFNULL("current_type2"."type",'') AS "Type 2",
-"previous_type1"."type" AS "Prev. Type 1", IFNULL("previous_type2"."type",'') AS "Prev. Type 2"
+    "current_type1"."type" AS "Type 1", IFNULL("current_type2"."type",'') AS "Type 2",
+    "previous_type1"."type" AS "Prev. Type 1", IFNULL("previous_type2"."type",'') AS "Prev. Type 2"
 -- Adds current typing data to view
 FROM "typing" AS "current_typing"
 JOIN "pokedex" ON "pokedex"."id" = "current_typing"."pokemon_id"
@@ -876,11 +877,11 @@ JOIN "pokedex" ON "pokedex"."id" = "regional_pokedex"."pokemon_id";
 -- Creates a view that shows Pokémon by game
 CREATE VIEW "list_of_pokemon_by_game" AS
 SELECT "games"."game" AS "Game", "regional_pokedex"."regional_id" AS "#",
-CASE
-    WHEN "regions"."region" = 'Kanto' THEN NULL
-    ELSE "regions"."adjective"
-END AS "Region",
-"pokedex"."species" AS "Pokémon"
+    CASE
+        WHEN "regional_forms"."pokemon_id" IS NULL THEN ''
+        ELSE "regions"."adjective"
+    END AS "Region",
+    "pokedex"."species" AS "Pokémon"
 FROM "pokemon_by_game" --game_id, pokemon_id
 JOIN "games" ON "games"."id" = "pokemon_by_game"."game_id"
 JOIN "generations" ON "generations"."id" = "games"."generation_id"
@@ -889,17 +890,39 @@ LEFT JOIN "regions" ON "regions"."id" = "games"."region_id"
 LEFT JOIN "regional_pokedex"
     ON "regional_pokedex"."region" = "regions"."region"
     AND "regional_pokedex"."pokemon_id" = "pokemon_by_game"."pokemon_id"
-    AND "regional_pokedex"."generation_id" = "games"."generation_id";
+    AND "regional_pokedex"."generation_id" = "games"."generation_id"
+LEFT JOIN "regional_forms"
+    ON "regional_forms"."pokemon_id" = "pokemon_by_game"."pokemon_id"
+    AND "regional_forms"."region_id" = "games"."region_id";
 
 -- Creates a view that shows Pokémon population by game
 CREATE VIEW "list_of_pokemon_population_by_game" AS
 SELECT "games"."game" AS "Game",
-CASE
-    WHEN "regions"."region" = 'Kanto' THEN NULL
-    ELSE "regions"."adjective"
-END AS "Region",
-"pokedex"."species" AS "Pokémon",
-("caught" + "received" + "evolve_gain" - "evolve_remove" - "released" - "traded" - "transferred") AS "Population"
+    CASE
+        WHEN "regional_forms"."pokemon_id" IS NULL THEN ''
+        ELSE "regions"."adjective"
+    END AS "Region",
+    "pokedex"."species" AS "Pokémon",
+    (
+        COALESCE("caught", 0)
+        + COALESCE("received", 0)
+        + COALESCE("evolve_gain", 0)
+        - COALESCE("evolve_remove", 0)
+        - COALESCE("released", 0)
+        - COALESCE("traded", 0)
+        - COALESCE("transferred", 0)
+    ) AS "Population",
+    SUM(
+        COALESCE("caught", 0)
+        + COALESCE("received", 0)
+        + COALESCE("evolve_gain", 0)
+        - COALESCE("evolve_remove", 0)
+        - COALESCE("released", 0)
+        - COALESCE("traded", 0)
+        - COALESCE("transferred", 0)
+    ) OVER (
+        PARTITION BY "game_id"
+    ) AS "Total Pop. by Game"
 FROM "pokemon_storage_system" --game_id, pokemon_id
 JOIN "games" ON "games"."id" = "pokemon_storage_system"."game_id"
 JOIN "generations" ON "generations"."id" = "games"."generation_id"
@@ -909,16 +932,23 @@ LEFT JOIN "regional_pokedex"
     ON "regional_pokedex"."region" = "regions"."region"
     AND "regional_pokedex"."pokemon_id" = "pokemon_storage_system"."pokemon_id"
     AND "regional_pokedex"."generation_id" = "games"."generation_id"
+LEFT JOIN "regional_forms"
+    ON "regional_forms"."pokemon_id" = "pokemon_storage_system"."pokemon_id"
+    AND "regional_forms"."region_id" = "games"."region_id"
 WHERE "population" > 0;
 
 -- Creates a view that shows Pokémon population in each storage utility
 CREATE VIEW "list_of_pokemon_in_storage" AS
 SELECT "storage_utilities"."utility" AS "Storage", "games"."game" AS "Game",
-CASE
-    WHEN "regions"."region" = 'Kanto' THEN NULL
-    ELSE "regions"."adjective"
-END AS "Region",
-"pokedex"."species" AS "Pokémon", ("added" - "removed") AS "Population"
+    CASE
+        WHEN "regional_forms"."pokemon_id" IS NULL THEN ''
+        ELSE "regions"."adjective"
+    END AS "Region",
+    "pokedex"."species" AS "Pokémon",
+    (
+        COALESCE("added", 0)
+        - COALESCE("removed", 0)
+    ) AS "Population"
 FROM "pokemon_home" --game_id, pokemon_id
 JOIN "storage_utilities" ON "storage_utilities"."id" = "pokemon_home"."utility_id"
 JOIN "games" ON "games"."id" = "pokemon_home"."origin_game_id"
@@ -929,12 +959,18 @@ LEFT JOIN "regional_pokedex"
     ON "regional_pokedex"."region" = "regions"."region"
     AND "regional_pokedex"."pokemon_id" = "pokemon_home"."pokemon_id"
     AND "regional_pokedex"."generation_id" = "games"."generation_id"
+LEFT JOIN "regional_forms"
+    ON "regional_forms"."pokemon_id" = "pokemon_home"."pokemon_id"
+    AND "regional_forms"."region_id" = "games"."region_id"
 WHERE "population" > 0;
 
 -- Creates a view that shows item count by game
 CREATE VIEW "list_of_inventory_by_game" AS
-SELECT "games"."game" AS "Game", "items"."item" AS "Item",
-("obtained" - "consumed") AS "Quantity"
+SELECT "games"."game" AS "Game", "items"."item" AS "Item", 
+    (
+        COALESCE("obtained", 0)
+        - COALESCE("consumed", 0)
+    ) AS "Quantity"
 FROM "item_bag" --game_id, pokemon_id
 JOIN "games" ON "games"."id" = "item_bag"."game_id"
 JOIN "items" ON "items"."id" = "item_bag"."item_id"
@@ -943,7 +979,7 @@ WHERE "Quantity" > 0;
 -- Creates a view that shows the details of Pokémon activity
 CREATE VIEW "detailed_pokemon_activity" AS
 SELECT "games"."game" AS "Game", "regions"."adjective" AS "Region", "pokedex"."species" AS "Pokémon",
-"action" AS "Action", "quantity" AS "Quantity"
+    "action" AS "Action", "quantity" AS "Quantity"
 FROM "pokemon_activity"
 JOIN "games" ON "games"."id" = "pokemon_activity"."game_id"
 JOIN "pokedex" ON "pokedex"."id" = "pokemon_activity"."pokemon_id"
@@ -952,7 +988,7 @@ LEFT JOIN "regions" ON "regions"."id" = "pokemon_activity"."region_id";
 -- Creates a view that shows the details of Pokémon activity
 CREATE VIEW "detailed_storage_activity" AS
 SELECT "storage_utilities"."utility" AS "Storage", "games"."game" AS "Game", "regions"."adjective" AS "Region",
-"pokedex"."species" AS "Pokémon", "action" AS "Action", "quantity" AS "Quantity"
+    "pokedex"."species" AS "Pokémon", "action" AS "Action", "quantity" AS "Quantity"
 FROM "storage_activity"
 JOIN "storage_utilities" ON "storage_utilities"."id" = "storage_activity"."utility_id"
 JOIN "games" ON "games"."id" = "storage_activity"."source_game_id"
@@ -962,7 +998,7 @@ LEFT JOIN "regions" ON "regions"."id" = "storage_activity"."region_id";
 -- Creates a view that shows the details of item activity
 CREATE VIEW "detailed_item_activity" AS
 SELECT "games"."game" AS "Game", "items"."item" AS "Item",
-"action" AS "Action", "quantity" AS "Quantity"
+    "action" AS "Action", "quantity" AS "Quantity"
 FROM "item_activity"
 JOIN "games" ON "games"."id" = "item_activity"."game_id"
 JOIN "items" ON "items"."id" = "item_activity"."item_id";
@@ -970,7 +1006,7 @@ JOIN "items" ON "items"."id" = "item_activity"."item_id";
 -- Creates a view that shows all information regarding a Pokémon
 CREATE VIEW "pokedex_basic" AS
 SELECT "pokedex"."id" AS "ID", "pokedex"."species" AS "Pokémon", "categories"."category" AS "Category",
-"type1"."type" AS "Type 1", IFNULL("type2"."type", '') AS "Type 2"
+    "type1"."type" AS "Type 1", IFNULL("type2"."type", '') AS "Type 2"
 FROM "pokedex"
 JOIN "pokemon_by_category" ON "pokemon_by_category"."pokemon_id" = "pokedex"."id"
 JOIN "categories" ON "categories"."id" = "pokemon_by_category"."category_id"
@@ -986,10 +1022,14 @@ SELECT "pokedex"."id" AS "ID",
         THEN '* ' || "pokedex"."species"
         ELSE "pokedex"."species"
     END AS "Pokémon",
-COALESCE("form_region"."region", "debut_region"."region") AS "Region",
-"categories"."category" AS "Category", "type1"."type" AS "Type 1", IFNULL("type2"."type", '') AS "Type 2",
-"evolution_stages"."stage" AS "Stage", "ability1"."ability" AS "Ability 1",
-IFNULL("ability2"."ability", '') AS "Ability 2", IFNULL("ability3"."ability", '') AS "Hidden Ability"
+    COALESCE("form_region"."region", "debut_region"."region") AS "Region",
+    "categories"."category" AS "Category", 
+    "type1"."type" AS "Type 1", 
+    IFNULL("type2"."type", '') AS "Type 2",
+    "evolution_stages"."stage" AS "Stage", 
+    "ability1"."ability" AS "Ability 1",
+    IFNULL("ability2"."ability", '') AS "Ability 2", 
+    IFNULL("ability3"."ability", '') AS "Hidden Ability"
 FROM "pokedex"
 -- Region
 JOIN "regional_pokedex" ON "regional_pokedex"."generation_id" = "pokedex"."generation_id"
@@ -1000,42 +1040,42 @@ JOIN "pokemon_by_category" ON "pokemon_by_category"."pokemon_id" = "pokedex"."id
 JOIN "categories" ON "categories"."id" = "pokemon_by_category"."category_id"
 -- Typing
 JOIN "typing" ON "typing"."pokemon_id" = "pokedex"."id"
-AND (
-    "typing"."type_changed" = 1
-    OR NOT EXISTS (
-        SELECT 1 FROM "typing" AS "default_type_1"
-        WHERE "default_type_1"."pokemon_id" = "typing"."pokemon_id"
-        AND "default_type_1"."type_changed" = 1
+    AND (
+        "typing"."type_changed" = 1
+        OR NOT EXISTS (
+            SELECT 1 FROM "typing" AS "default_type_1"
+            WHERE "default_type_1"."pokemon_id" = "typing"."pokemon_id"
+            AND "default_type_1"."type_changed" = 1
+        )
     )
-)
 JOIN "types" AS "type1" ON "type1"."id" = "typing"."primary_type"
 LEFT JOIN "types" AS "type2" ON "type2"."id" = "typing"."secondary_type"
-AND (
-    "typing"."type_changed" = 1
-    OR NOT EXISTS (
-        SELECT 1 FROM "typing" AS "default_type_2"
-        WHERE "default_type_2"."pokemon_id" = "typing"."pokemon_id"
-        AND "default_type_2"."type_changed" = 1
+    AND (
+        "typing"."type_changed" = 1
+        OR NOT EXISTS (
+            SELECT 1 FROM "typing" AS "default_type_2"
+            WHERE "default_type_2"."pokemon_id" = "typing"."pokemon_id"
+            AND "default_type_2"."type_changed" = 1
+        )
     )
-)
 -- Evolution data
 JOIN "evolutions" ON "evolutions"."pokemon_id" = "pokedex"."id"
 LEFT JOIN "evolution_stages" ON "evolution_stages"."id" = "evolutions"."evolution_stage"
 -- Abilities
 JOIN "pokemon_by_ability" ON "pokemon_by_ability"."pokemon_id" = "pokedex"."id"
-AND (
-    "pokemon_by_ability"."region_id" = "typing"."region_id"
-    OR (
-        "pokemon_by_ability"."region_id" IS NULL
-        AND "typing"."region_id" IS NULL
+    AND (
+        "pokemon_by_ability"."region_id" = "typing"."region_id"
+        OR (
+            "pokemon_by_ability"."region_id" IS NULL
+            AND "typing"."region_id" IS NULL
+        )
     )
-)
 JOIN "abilities" AS "ability1" ON "ability1"."id" = "pokemon_by_ability"."ability_1"
 LEFT JOIN "abilities" AS "ability2" ON "ability2"."id" = "pokemon_by_ability"."ability_2"
 LEFT JOIN "abilities" AS "ability3" ON "ability3"."id" = "pokemon_by_ability"."hidden_ability"
 -- Regional forms
 LEFT JOIN "regional_forms" ON "regional_forms"."pokemon_id" = "pokedex"."id"
-AND "regional_forms"."region_id" = "typing"."region_id"
+    AND "regional_forms"."region_id" = "typing"."region_id"
 LEFT JOIN "regions" AS "form_region" ON "form_region"."id" = "regional_forms"."region_id"
 ORDER BY "ID";
 
@@ -1045,7 +1085,7 @@ SELECT "id" AS "ID", "species" AS "Pokémon", "generation_id" AS "Gen", '' AS "R
 FROM "pokedex"
 UNION
 SELECT "pokedex"."id", "pokedex"."species", "regional_forms"."generation_id",
-IFNULL("regions"."region", '') AS "Region"
+    IFNULL("regions"."region", '') AS "Region"
 FROM "regional_forms"
 JOIN "pokedex" ON "pokedex"."id" = "regional_forms"."pokemon_id"
 JOIN "regions" ON "regions"."id" = "regional_forms"."region_id";
